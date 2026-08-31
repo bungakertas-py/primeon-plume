@@ -660,8 +660,9 @@ function renderLegend(layerKey) {
   cells.classList.toggle("legend-words", !!def.words);   // sel melebar utk label kata
   cells.classList.toggle("legend-lebar", !!def.lebar);   // sel sedikit lebih lebar utk angka spt -50K
   cells.innerHTML = def.cells.map(([label, bg, dark, sub]) =>
-    `<div class="legend-cell${dark ? " dark" : ""}${sub ? " dua-baris" : ""}" style="background:${bg}">` +
-    (sub ? `<b>${label}</b><span>${sub}</span>` : label) + `</div>`).join("");
+    `<div class="legend-cell${dark ? " dark" : ""}">` +
+    `<i class="lg-bar" style="background:${bg}"></i>` +
+    `<span class="lg-lbl">${label}${sub ? " " + sub : ""}</span></div>`).join("");
 }
 
 function setActiveLayer(layerKey) {
