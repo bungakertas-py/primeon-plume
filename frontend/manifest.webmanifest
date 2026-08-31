@@ -1,6 +1,6 @@
 {
-  "name": "Kertas Emisi — Peta Kualitas Udara Indonesia",
-  "short_name": "Kertas Emisi",
+  "name": "Primeon Plume — Peta Kualitas Udara Indonesia",
+  "short_name": "Primeon Plume",
   "description": "Peta cuaca interaktif Indonesia dari model GFS: angin, hujan, suhu, kelembapan, awan, dan tekanan.",
   "lang": "id",
   "start_url": ".",

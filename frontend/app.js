@@ -147,7 +147,7 @@ for (const _p of DT_PARAM) LEGENDS[`dt_${_p}`] = DT_LEGEND;
 //
 // Sandi TIDAK diingat: tiap kali salah satu dari empat tombol daya tampung
 // ditekan, sandi diketik lagi, walau baru saja keluar dari layer itu. Permintaan
-// user, kekakuannya persis gerbang model WRF di Kertas Cuaca.
+// user, kekakuannya persis gerbang model WRF di Primeon Atmos.
 const DT_SANDI = "bungakertas123!";
 const isLayerDT = (key) => !!key && key.startsWith("dt_");
 
@@ -958,7 +958,7 @@ function skewtSkeleton() {
 
 // Render (atau re-render) kartu Skew-T ke #pt-skewt-wrap untuk titik & waktu aktif.
 async function renderSkewTCard() {
-  // skewt.js dibuang di Kertas Emisi (profil termodinamika tak ada kaitannya dengan
+  // skewt.js dibuang di Primeon Plume (profil termodinamika tak ada kaitannya dengan
   // polutan). Kartunya juga disembunyikan lewat CSS, tapi jaga-jaga kalau terpanggil.
   if (!window.SkewT) return;
   const wrap = $("pt-skewt-wrap");
@@ -1163,7 +1163,7 @@ function chartLegend(color) {
 }
 
 // ================= POPUP TITIK =================
-// Kertas Cuaca memakai sidebar kanan. Di sini diganti POPUP tepat di titik yang
+// Primeon Atmos memakai sidebar kanan. Di sini diganti POPUP tepat di titik yang
 // diklik, seperti Kertas Fenomena. Isinya satu hal saja: plot deret waktu parameter
 // yang sedang aktif. Sumbu X waktu, sumbu Y konsentrasi.
 
@@ -1946,7 +1946,7 @@ async function restoreFromHash() {
 async function shareCurrent() {
   updateHash();
   const url = location.href;
-  const data = { title: "Kertas Cuaca", text: "Lihat cuaca di Kertas Cuaca", url };
+  const data = { title: "Primeon Atmos", text: "Lihat cuaca di Primeon Atmos", url };
   try {
     if (navigator.share) { await navigator.share(data); return; }
     await navigator.clipboard.writeText(url);
@@ -2107,7 +2107,7 @@ const CITY_UNIT = {
   storm_potential: { u: "J/kg", d: 0 },
   cin_surface: { u: "J/kg", d: 0 },
 };
-// Untuk parameter Kertas Emisi, kunci layer SAMA dengan kunci variabelnya.
+// Untuk parameter Primeon Plume, kunci layer SAMA dengan kunci variabelnya.
 const CITY_VAR = { ispu: "ispu", pm25: "pm25", pm10: "pm10", co: "co", no2: "no2",
                    so2: "so2", o3: "o3", aod: "aod", pbl: "pbl",
                    dt_pm25: "dt_pm25", dt_pm10: "dt_pm10", dt_so2: "dt_so2", dt_no2: "dt_no2",
@@ -2493,8 +2493,8 @@ function toggleItcz() {
 // Warna isobar MENGIKUTI palet tekanan (dari legenda) pada nilai hPa garis itu,
 // lalu digelapkan ("lebih tua") agar kontras; dipadu halo putih supaya terbaca
 // di zona terang (~1013) maupun gelap (biru/oranye).
-// Kertas Emisi tak punya layer tekanan, jadi legendanya memang tak ada. Kode isobar
-// warisan Kertas Cuaca tetap ada tapi TIDAK boleh mematikan seluruh aplikasi saat dimuat.
+// Primeon Plume tak punya layer tekanan, jadi legendanya memang tak ada. Kode isobar
+// warisan Primeon Atmos tetap ada tapi TIDAK boleh mematikan seluruh aplikasi saat dimuat.
 const _PRESS_STOPS = ((LEGENDS.pressure_surface || {}).cells || []).map(([lab, hex]) => [parseFloat(lab), hex]);
 const _hex2rgb = (h) => { h = h.replace("#", ""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; };
 const _rgb2hex = (r, g, b) => "#" + [r, g, b].map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, "0")).join("");
@@ -2748,10 +2748,10 @@ function whenHeatmapReady() {
 }
 
 // ---- Init --------------------------------------------------------------
-// MODE CANGKANG. Kertas Emisi belum tersambung data CAMS, tapi peta, basemap,
+// MODE CANGKANG. Primeon Plume belum tersambung data CAMS, tapi peta, basemap,
 // batas wilayah, bingkai, dan seluruh kerangka UI tetap harus bisa ditinjau.
 // Tanpa ini, catalog.json yang tak ada bikin init() gagal dan layar cuma pesan error.
-// Domainnya SAMA PERSIS dengan Kertas Cuaca supaya bingkainya identik.
+// Domainnya SAMA PERSIS dengan Primeon Atmos supaya bingkainya identik.
 let dataMissing = false;
 const SHELL_CATALOG = { region: { bounds: [62.0, -33.0, 180.0, 33.0] }, layers: {} };
 
@@ -2820,7 +2820,7 @@ async function init() {
     }
 
     // Medan angin per-waktu — partikel dipakai di SEMUA layer (termasuk hujan).
-    // Kertas Emisi tak punya layer angin sendiri. Velocity ditempelkan ke tiap frame
+    // Primeon Plume tak punya layer angin sendiri. Velocity ditempelkan ke tiap frame
     // polutan, jadi partikelnya ikut di SEMUA parameter tanpa perlu tombol angin.
     Object.values(cat.layers || {}).forEach((L) =>
       (L.frames || []).forEach((f) => { if (f.velocity_json) windVelByTime[f.valid_time] = f.velocity_json; }));
@@ -3051,14 +3051,14 @@ const LB_SEKSI = [
   { judul: "Parameter", sel: ".layer-btn[data-layer]:not(.dd-btn)" },
   { judul: "Daya Tampung", sel: ".layer-btn.dd-btn" },
 ];
-// Warisan Kertas Cuaca (siklon, ITCZ, monsun, kondisi kota) memang tak berlaku
-// di Kertas Emisi dan sudah disembunyikan CSS, jadi tak diikutkan.
+// Warisan Primeon Atmos (siklon, ITCZ, monsun, kondisi kota) memang tak berlaku
+// di Primeon Plume dan sudah disembunyikan CSS, jadi tak diikutkan.
 const KET_SUMBER = [];
 
 /* ==================================================================
    TATA LETAK HP: bilah bawah, chip parameter, tumpukan keterangan.
 
-   Versi UMUM, dipakai bersama Kertas Cuaca, Kertas Fenomena, dan Kertas
+   Versi UMUM, dipakai bersama Primeon Atmos, Kertas Fenomena, dan Kertas
    Emisi. Yang beda antar aplikasi cuma daftar seksi di LB_SEKSI dan daftar
    kotak keterangan di KET_SUMBER, keduanya di atas.
 

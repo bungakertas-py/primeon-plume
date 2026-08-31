@@ -1,8 +1,8 @@
-# Kertas Emisi — Peta Kualitas Udara Indonesia
+# Primeon Plume — Peta Kualitas Udara Indonesia
 
 Peta sebaran polutan untuk Indonesia dan sekitarnya dari model komposisi atmosfer
 global CAMS. Kerangkanya diturunkan dari
-[Kertas Cuaca](https://github.com/bungakertas-py/bungakertas-signature): domain,
+[Primeon Atmos](https://github.com/bungakertas-py/bungakertas-signature): domain,
 bingkai, basemap, batas wilayah, panel, label kota, dan tata letaknya sama persis.
 Yang berbeda hanya datanya.
 
