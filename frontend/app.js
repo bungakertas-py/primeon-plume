@@ -660,9 +660,8 @@ function renderLegend(layerKey) {
   cells.classList.toggle("legend-words", !!def.words);   // sel melebar utk label kata
   cells.classList.toggle("legend-lebar", !!def.lebar);   // sel sedikit lebih lebar utk angka spt -50K
   cells.innerHTML = def.cells.map(([label, bg, dark, sub]) =>
-    `<div class="legend-cell${dark ? " dark" : ""}">` +
-    `<i class="lg-bar" style="background:${bg}"></i>` +
-    `<span class="lg-lbl">${label}${sub ? " " + sub : ""}</span></div>`).join("");
+    `<div class="legend-cell${dark ? " dark" : ""}${sub ? " dua-baris" : ""}" style="background:${bg}">` +
+    (sub ? `<b>${label}</b><span>${sub}</span>` : label) + `</div>`).join("");
 }
 
 function setActiveLayer(layerKey) {
@@ -1131,7 +1130,7 @@ function chartSVG(spec) {
   }
 
   // ---- sumbu X & Y + tick label (tanpa grid) ----
-  const AX = `stroke="#3c3c3c" stroke-width="1"`;
+  const AX = `stroke="#271717" stroke-width="1.4"`;
   let axes = `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${y0}" ${AX}/>` +
              `<line x1="${padL}" y1="${y0}" x2="${padL + plotW}" y2="${y0}" ${AX}/>`;
   for (const tv of [hi, (lo + hi) / 2, lo]) {
@@ -2293,14 +2292,12 @@ async function loadCyclones() {
 // Warna ikut TINGKAT: Siklon Lintang Tinggi (UNGU), Siklon Tropis (MERAH),
 // Bibit Siklon (ORANYE), Sirkulasi Siklonik (HIJAU TUA). Kunci legenda identifikasi.
 function cycloneColor(tier, cat) {
-  // Warna dipetakan ke palet fungsional Cyberminimalist HUD, bukan warna
-  // dekoratif. Sistem ini cuma punya tiga isyarat: hijau untuk keadaan normal,
-  // biru untuk sesuatu yang menarik perhatian, oranye untuk peringatan. Makin
-  // berbahaya makin condong ke oranye lalu merah.
-  if (tier === "CIRC") return "#00ff41";              // Sirkulasi Siklonik, paling lemah
-  if (tier === "EXTRA") return "#00f0ff";             // Siklon Lintang Tinggi
-  if (tier === "SEED") return "#ff9100";              // Bibit Siklon, mulai diawasi
-  return cat >= 3 ? "#ff2d2d" : "#ff6a00";            // Siklon Tropis
+  // Triad Bauhaus: merah untuk bahaya, biru untuk perairan dan keadaan
+  // interaktif, kuning untuk peringatan sekunder. Tanpa warna dekoratif.
+  if (tier === "CIRC") return "#485f84";              // Sirkulasi Siklonik, paling lemah
+  if (tier === "EXTRA") return "#5b403f";             // Siklon Lintang Tinggi
+  if (tier === "SEED") return "#e0a500";              // Bibit Siklon, peringatan
+  return cat >= 3 ? "#7d0a1c" : "#b7102a";            // Siklon Tropis, merah utama
 }
 function refreshCyclones() {
   if (!cycloneGroup) return;
