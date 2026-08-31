@@ -219,7 +219,17 @@
             <div class="field">
               <div class="label-caps">MODEL</div>
               <div class="select-wrap">
-                <select id="model-select"><option>CAMS - 44 km</option></select>
+                <select id="model-select">
+                  <option>CAMS - 44 km</option>
+                  <!-- Model PAJANGAN. Sengaja cuma dipamerkan supaya rencananya
+                       kelihatan, tapi MATI dan tidak bisa dipilih. Tidak ada
+                       pipeline dan tidak ada datanya. Buang "disabled" kalau
+                       salah satunya betul betul sudah digarap. -->
+                  <option disabled>WRF-Chem - 3 km</option>
+                  <option disabled>CAMx - 3 km</option>
+                  <option disabled>CMAQ - 3 km</option>
+                  <option disabled>FLEXPART - 3 km</option>
+                </select>
                 <span class="material-symbols-outlined">arrow_drop_down</span>
               </div>
             </div>
