@@ -936,6 +936,50 @@ html, body {
   .about-name { font-size: 22px; }
 }
 
+/* ===== Kartu Tim Primeon ===== */
+/* Satu-satunya kartu Tentang. Framing personal sudah dibuang, yang tampil tim. */
+#about-card-team { display: flex; }
+.about-card--team { flex-direction: column; max-width: 588px; padding: 22px 38px 26px; gap: 18px; }
+.tm-head { display: flex; flex-direction: column; gap: 10px; }
+
+/* Komposisi 'Pemateri' (referensipose): tengah besar & tegak menonjol, dua
+   samping lebih kecil & miring menyelip di belakang. Tiap foto punya backing
+   lime solid (bayangan keras khas neubrutalist). */
+.tm-row { display: flex; align-items: flex-end; justify-content: center; gap: 0;
+  padding-top: 28px; }
+.tm { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; margin: 0; }
+.tm-photo { border: var(--bw) solid var(--ink); background: var(--paper);
+  overflow: hidden; aspect-ratio: 4 / 5; }
+.tm-photo img { width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(1) contrast(1.03); }
+.tm-name { font-family: var(--font-mono); font-weight: 700; font-size: 10px;
+  letter-spacing: .01em; text-align: center; color: var(--ink); background: var(--lime);
+  border: var(--bw) solid var(--ink); border-top: none; padding: 6px 4px; line-height: 1.15;
+  min-height: 2.7em; display: flex; align-items: center; justify-content: center; }
+
+/* samping: kecil, miring, menyelip ke belakang tengah */
+.tm--side { flex: 0.9 1 0; z-index: 1; }
+.tm--side .tm-photo { box-shadow: 5px 5px 0 0 var(--lime); }
+.tm--left  { transform: rotate(-6deg); transform-origin: bottom center; margin-right: -14px; }
+.tm--right { transform: rotate(6deg);  transform-origin: bottom center; margin-left: -14px; }
+
+/* tengah: paling besar, tegak, terangkat, di depan, backing lebih tebal */
+.tm--lead { flex: 1.3 1 0; z-index: 3; transform: translateY(-16px); }
+.tm--lead .tm-photo { box-shadow: 8px 8px 0 0 var(--lime); }
+.tm--lead .tm-name { font-size: 11px; }
+
+@media (max-width: 560px) {
+  .about-card--team { max-width: 360px; max-height: 90vh; overflow-y: auto; padding: 16px 26px 22px; gap: 14px; }
+  .tm-row { padding-top: 22px; }
+  .tm-name { font-size: 8.5px; padding: 5px 2px; min-height: 3em; }
+  .tm--lead .tm-name { font-size: 9.5px; }
+  .tm--left  { transform: rotate(-5deg); margin-right: -10px; }
+  .tm--right { transform: rotate(5deg);  margin-left: -10px; }
+  .tm--lead { transform: translateY(-11px); }
+  .tm--side .tm-photo { box-shadow: 4px 4px 0 0 var(--lime); }
+  .tm--lead .tm-photo { box-shadow: 6px 6px 0 0 var(--lime); }
+}
+
 /* Penanda "kamu di sini" (geolokasi) — badge bulat neubrutalist. */
 .pm-me {
   display: grid; place-items: center; width: 32px; height: 32px;
@@ -1490,13 +1534,44 @@ sub { font-size: .72em; line-height: 0; vertical-align: baseline; position: rela
     /* Halo tipis warna kertas. Bukan hiasan: tanpa kontainer, tidak ada lagi
        yang menaungi nama ini dari peta, dan peta bisa berwarna apa saja. */
     text-shadow: 0 0 3px var(--paper), 0 0 6px var(--paper), 0 1px 2px var(--paper);
+    /* Kontainer tumbuh mulus saat parameternya dipilih. */
+    transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
   }
+  /* Kontainer gelap muncul saat disentuh (pratinjau) dan BERTAHAN saat
+     kontrol ini dipilih (aktif). Sama seperti panel kiri. */
+  .col.items-end [data-tip].active::after,
   .col.items-end [data-tip]:hover::after {
     background: var(--ink);
     color: var(--surface);
     border-color: var(--ink);
     box-shadow: var(--shadow-sm);
     text-shadow: none;
+  }
+
+  /* Ukuran dan jarak toggle disamakan dengan panel kiri: kotak 34px, rapat 4px,
+     dan hover menyala lemon seperti di kiri (tanpa efek tekan). */
+  .col.items-end { gap: 4px; }
+  .col.items-end .icon-btn {
+    width: 34px; height: 34px;
+    box-shadow: var(--shadow-sm);
+  }
+  .col.items-end .icon-btn .material-symbols-outlined { font-size: 19px; }
+  .col.items-end .icon-btn:hover:not(:disabled) {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+    background: var(--lime);
+  }
+  .col.items-end .icon-btn.active .material-symbols-outlined,
+  .col.items-end .icon-btn:hover:not(:disabled) .material-symbols-outlined { color: var(--on-lime); }
+
+  /* Zoom (+/-) dan bahasa (ID/EN) ikut menyusut menyamai toggle: tinggi 34px,
+     bayangan tipis, biar satu tumpukan rata. */
+  .col.items-end .zoom, .col.items-end .lang { box-shadow: var(--shadow-sm); }
+  .col.items-end .zoom button { width: 34px; height: 34px; }
+  .col.items-end .zoom button .material-symbols-outlined { font-size: 19px; }
+  .col.items-end .lang button {
+    height: 34px; padding: 0 13px;
+    display: flex; align-items: center; font-size: 13px;
   }
 
   /* ───────────────────────── PANEL KIRI ─────────────────────────
@@ -1524,13 +1599,23 @@ sub { font-size: .72em; line-height: 0; vertical-align: baseline; position: rela
     background: var(--surface);
     box-shadow: var(--shadow-sm);
     font-size: 19px;
+    /* Lemon-nya menyala mulus, bukan meloncat. */
+    transition: background .15s ease, color .15s ease;
   }
-  /* Menyala: kotak lambangnya yang terisi lime, sama seperti .icon-btn.active
-     di kanan. Bukan sebarisnya. */
+  /* Disentuh / menyala: kotak lambangnya terisi lime, sama seperti .icon-btn
+     di kanan. Bukan sebarisnya. Hover jadi pratinjau tampilan terpilih. */
   .panel.layers .layer-btn.active { background: transparent; }
-  .panel.layers .layer-btn.active .material-symbols-outlined { background: var(--lime); }
+  .panel.layers .layer-btn.active .material-symbols-outlined,
+  .panel.layers .layer-btn:hover:not(.disabled) .material-symbols-outlined {
+    background: var(--lime); color: var(--on-lime);
+  }
 
-  /* Namanya: teks polos saat diam, kontainer gelap saat disentuh. Cerminan
+  /* Tooltip nama yang MUNCUL saat hover dibuang dari panel kiri. Namanya sudah
+     tampil sebagai teks polos, dan kontainer hitamnya kini muncul saat DIPILIH,
+     bukan saat disentuh. */
+  .panel.layers .layer-btn[data-tip]::after { content: none; }
+
+  /* Namanya: teks polos saat diam, kontainer gelap saat DIPILIH. Cerminan
      tooltip di kanan, cuma tanpa perlu ::after sebab di sini namanya sudah
      punya elemen sendiri. */
   .panel.layers .lb-txt {
@@ -1538,8 +1623,13 @@ sub { font-size: .72em; line-height: 0; vertical-align: baseline; position: rela
     /* Halo tipis warna kertas. Bukan hiasan: tanpa kontainer, tak ada lagi
        yang menaungi nama ini dari peta, dan peta bisa berwarna apa saja. */
     text-shadow: 0 0 3px var(--paper), 0 0 6px var(--paper), 0 1px 2px var(--paper);
+    /* Kontainer tumbuh mulus saat parameternya dipilih. */
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease, padding .15s ease;
   }
   .panel.layers .layer-btn:hover:not(.disabled) { background: transparent; }
+  /* Kontainer gelap muncul saat disentuh (pratinjau) dan BERTAHAN saat
+     parameternya dipilih (aktif). */
+  .panel.layers .layer-btn.active .lb-txt,
   .panel.layers .layer-btn:hover:not(.disabled) .lb-txt {
     background: var(--ink); color: var(--surface);
     border: var(--bw) solid var(--ink); box-shadow: var(--shadow-sm);
@@ -1565,10 +1655,17 @@ sub { font-size: .72em; line-height: 0; vertical-align: baseline; position: rela
   }
   .panel.layers .layer-btn--half + .layer-btn--half { border-left: var(--bw) solid var(--ink); }
   .panel.layers .layer-btn--half .lb-txt { text-shadow: none; padding: 0; }
-  .panel.layers .layer-btn--half:hover:not(.active) { background: var(--surface-high); }
-  .panel.layers .layer-btn--half:hover .lb-txt {
-    background: transparent; color: inherit;
-    border: none; box-shadow: none; padding: 0;
-  }
+  /* ISPU/AQI tak punya kontainer hitam. Hover langsung menguning, dan saat
+     dipencet kuningnya BERTAHAN. */
+  .panel.layers .layer-btn--half { transition: background .15s ease, color .15s ease; }
+  .panel.layers .layer-btn--half:hover:not(.active) { background: var(--lime); color: var(--on-lime); }
   .panel.layers .layer-btn--half.active { background: var(--lime); color: var(--on-lime); }
+  /* Namanya tetap teks polos di dalam kepingan, tak pernah jadi kontainer gelap.
+     :not(.disabled) dipasang biar spesifisitasnya menandingi aturan hover umum
+     di atas, jadi kontainer hitam tak bocor ke ISPU/AQI saat disentuh. */
+  .panel.layers .layer-btn--half:hover:not(.disabled) .lb-txt,
+  .panel.layers .layer-btn--half.active .lb-txt {
+    background: transparent; color: inherit;
+    border: none; box-shadow: none; padding: 0; text-shadow: none;
+  }
 }
