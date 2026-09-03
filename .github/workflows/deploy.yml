@@ -30,6 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Riwayat PENUH, bukan dangkal. Langkah arsip di bawah melakukan
+          # rebase kalau main sudah maju, dan rebase di atas klona dangkal itu
+          # rapuh. Repo ini cuma 3,8 MB dengan 58 commit, jadi murah.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -58,10 +63,29 @@ jobs:
           git add frontend/data/arsip
           if git diff --cached --quiet; then
             echo "arsip tak berubah, lewati commit"
-          else
-            git commit -m "Arsip harian kualitas udara [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "Arsip harian kualitas udara [skip ci]"
+
+          # Pipeline ini jalan 15 sampai 20 menit. Selama itu main BISA MAJU,
+          # misalnya ada yang push perbaikan. Dulu push di sini polos tanpa
+          # rebase, jadi begitu main maju dia ditolak "fetch first" dan SELURUH
+          # deploy gagal padahal datanya sudah jadi. Kejadian 3 September 2026.
+          # Diulang tiga kali, sebab main bisa maju lagi di sela percobaan.
+          for i in 1 2 3; do
+            if git push; then
+              echo "arsip terkirim pada percobaan $i"
+              exit 0
+            fi
+            echo "push ditolak, main sudah maju. Tarik ulang lalu coba lagi."
+            git pull --rebase --autostash origin main || break
+          done
+
+          # Sengaja TIDAK menggagalkan build. Arsip riwayat itu pelengkap,
+          # sedangkan penerbitan situs adalah tujuan utamanya. Jangan sampai
+          # gagal menyimpan riwayat membuat peta hari ini batal terbit.
+          echo "::warning::Commit-back arsip harian gagal setelah 3 percobaan. Datanya tetap ikut terbit ke Pages, cuma riwayatnya tidak tersimpan ke repo kali ini."
+
 
       - name: Assemble site (jaga struktur ../backend/data/output)
         run: |
