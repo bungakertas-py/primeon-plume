@@ -1,4 +1,4 @@
-name: Deploy Primeon Plume
+name: Deploy Smokewatch
 
 # Jalankan pipeline GFS lalu publish frontend+data ke GitHub Pages.
 # Cron tiap 6 jam (menit :15). Bisa juga dipicu manual (workflow_dispatch).
@@ -70,19 +70,19 @@ jobs:
           cp -r backend/data/output/. _site/backend/data/output/
           cat > _site/index.html <<'HTML'
           <!doctype html><meta charset="utf-8">
-          <title>Primeon Plume, peta kualitas udara interaktif Indonesia</title>
+          <title>Smokewatch, peta kualitas udara interaktif Indonesia</title>
           <script>location.replace("./frontend/index.html")</script>
           <meta http-equiv="refresh" content="0; url=./frontend/index.html">
           <meta property="og:type" content="website">
-          <meta property="og:site_name" content="Primeon Plume">
-          <meta property="og:title" content="Primeon Plume, peta kualitas udara interaktif Indonesia">
+          <meta property="og:site_name" content="Smokewatch">
+          <meta property="og:title" content="Smokewatch, peta kualitas udara interaktif Indonesia">
           <meta property="og:description" content="Sebaran PM2.5, PM10, CO, NO2, SO2, ozon, dan kabut asap untuk seluruh Indonesia. Klik lokasimu untuk grafik per jam.">
-          <meta property="og:url" content="https://bungakertas-py.github.io/primeon-plume/">
-          <meta property="og:image" content="https://bungakertas-py.github.io/primeon-plume/frontend/og-image.png">
+          <meta property="og:url" content="https://bungakertas-py.github.io/smokewatch/">
+          <meta property="og:image" content="https://bungakertas-py.github.io/smokewatch/frontend/og-image.png">
           <meta name="twitter:card" content="summary_large_image">
-          <meta name="twitter:image" content="https://bungakertas-py.github.io/primeon-plume/frontend/og-image.png">
+          <meta name="twitter:image" content="https://bungakertas-py.github.io/smokewatch/frontend/og-image.png">
           <style>html,body{margin:0;height:100%;background:#0a1018}</style>
-          <a href="./frontend/index.html" style="position:absolute;left:-9999px">Buka Primeon Plume</a>
+          <a href="./frontend/index.html" style="position:absolute;left:-9999px">Buka Smokewatch</a>
           HTML
 
       - uses: actions/upload-pages-artifact@v3

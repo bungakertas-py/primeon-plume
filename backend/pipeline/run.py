@@ -1,9 +1,9 @@
 """
-Orchestrator Primeon Plume: ambil run CAMS terbaru -> render tiap langkah ->
+Orchestrator Smokewatch: ambil run CAMS terbaru -> render tiap langkah ->
 rekonsiliasi (retensi window) -> tulis catalog.json untuk frontend.
 
 Jalankan: python run.py
-Struktur keluarannya SAMA PERSIS dengan Primeon Atmos, jadi frontend yang diwarisi
+Struktur keluarannya SAMA PERSIS dengan Atmosight, jadi frontend yang diwarisi
 bisa membacanya tanpa diubah.
 """
 from __future__ import annotations
@@ -37,7 +37,7 @@ def _parse(ts: str) -> dt.datetime:
 def _frame_files(m: dict) -> list[str]:
     """Berkas milik satu frame, untuk dihapus saat frame itu dibuang.
 
-    Velocity JSON sengaja TIDAK ikut. Di Primeon Plume satu berkas velocity dipakai
+    Velocity JSON sengaja TIDAK ikut. Di Smokewatch satu berkas velocity dipakai
     bersama oleh SEMUA layer pada langkah yang sama, jadi menghapusnya waktu satu
     frame dibuang akan melumpuhkan layer lain di langkah itu."""
     out = [m["_path"]]

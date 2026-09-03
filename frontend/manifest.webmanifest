@@ -1,6 +1,6 @@
 {
-  "name": "Primeon Plume — Peta Kualitas Udara Indonesia",
-  "short_name": "Primeon Plume",
+  "name": "Smokewatch — Peta Kualitas Udara Indonesia",
+  "short_name": "Smokewatch",
   "description": "Peta cuaca interaktif Indonesia dari model GFS: angin, hujan, suhu, kelembapan, awan, dan tekanan.",
   "lang": "id",
   "start_url": ".",

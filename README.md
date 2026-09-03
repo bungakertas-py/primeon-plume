@@ -1,8 +1,8 @@
-# Primeon Plume — Peta Kualitas Udara Indonesia
+# Smokewatch — Peta Kualitas Udara Indonesia
 
 Peta sebaran polutan untuk Indonesia dan sekitarnya dari model komposisi atmosfer
 global CAMS. Kerangkanya diturunkan dari
-[Primeon Atmos](https://github.com/bungakertas-py/bungakertas-signature): domain,
+[Atmosight](https://github.com/bungakertas-py/atmosight): domain,
 bingkai, basemap, batas wilayah, panel, label kota, dan tata letaknya sama persis.
 Yang berbeda hanya datanya.
 

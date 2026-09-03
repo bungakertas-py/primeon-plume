@@ -1,6 +1,6 @@
-# Dependency pipeline Primeon Plume (GitHub Actions & lokal).
+# Dependency pipeline Smokewatch (GitHub Actions & lokal).
 # Tak ada eccodes/cfgrib: CAMS dikirim sebagai NetCDF, bukan GRIB.
-# Tak ada contourpy: isobar warisan Primeon Atmos tidak dipakai di sini.
+# Tak ada contourpy: isobar warisan Atmosight tidak dipakai di sini.
 numpy>=2.0
 xarray>=2024.1
 netCDF4>=1.6
